@@ -1,6 +1,7 @@
 import json
 import network
 import ntptime
+import time
 
 class Configurator:
   def __init__(self):
@@ -31,7 +32,10 @@ class Configurator:
             if not self.wlan.isconnected() and configuredNetwork["ssid"].lower() == availNetwork[0].decode("utf-8").lower():
               print("Attempting connection to network {0}".format(configuredNetwork["ssid"]))
               self.wlan.connect(configuredNetwork["ssid"], configuredNetwork["psk"])
-              break
+              time.sleep(5)
+              if not self.wlan.isconnected():
+                print("Failed connection to network {0}".format(configuredNetwork["ssid"]))
+                break
     else:
       print("No networks are configured")
 
